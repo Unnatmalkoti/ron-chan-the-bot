@@ -58,17 +58,18 @@ client.login(token);
 
 client.on('message', message => {
     console.log(`\n${message.author.username} : \n${message.content}\n`);
-    i = randomWack(i,message,data.random_wack_width);              //randomWack setup
 
+    if (message.author.bot) return;
+    i = randomWack(i, message, data.random_wack_width);              //randomWack setup
 
-    if (   (!message.content.startsWith(prefixes[0])    &&   !message.content.startsWith(prefixes[1]))       ||       message.author.bot) return;     
+    if ((!message.content.startsWith(prefixes[0]) && !message.content.startsWith(prefixes[1]))) return;
 
-	const args = message.content.slice(prefixes[0].length).split(/ +/);
+    const args = message.content.slice(prefixes[0].length).split(/ +/);
     const commandName = args.shift().toLowerCase();
 
 	
     const command = client.commands.get(commandName) ||
-            client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
+        client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
     if (!command) return;
 
     try {
