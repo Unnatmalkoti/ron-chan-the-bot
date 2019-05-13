@@ -77,7 +77,7 @@ client.on('message', message => {
 
     catch (error) {
         console.error(error);
-        message.reply('error! bitch!');
+        message.reply('You get an error and lots of love from me.');
     }
 
 
