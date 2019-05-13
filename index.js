@@ -141,10 +141,11 @@ function sendNotification(newChapter, manga, chapter_id, manga_id, role_id)
             .setThumbnail(`https:\/\/mangadex.org\/${manga.cover_url}`)
             .setAuthor(manga.title,"" ,`https:\/\/mangadex.org\/title\/${manga_id}`);
 
-
+        
         const release_channel = client.channels.get(data.release_channel_id)
+        const all_role = release_channel.guild.roles.get(data.all_role);
         console.log(release_channel);
-        if(release_channel.send(`${release_channel.guild.roles.get(role_id)}`))
+        if(release_channel.send(`${release_channel.guild.roles.get(role_id)} ${all_role}`))
         if(release_channel.send(emmbed))
         {
             data.notified_chapters.push(chapter_id);
