@@ -4,6 +4,7 @@ const { prefix, token } = require('./config.json');
 const fs = require('fs');
 const client = new Discord.Client();
 
+
 client.commands = new Discord.Collection();
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 
@@ -14,6 +15,8 @@ for (const file of commandFiles) {
 	client.commands.set(command.name, command);
 }
 readData();
+let i = 10; 
+console.log(i);
 
 
 function readData() {
@@ -48,16 +51,17 @@ function updateDatabase()
 client.once('ready', () => {
     console.log("ready"); 
     //console.log(data);
-    setInterval(function(){getAllChapters(); console.log("Checked!")}, data.refresh_time);  
-    
+    setInterval(function(){getAllChapters(); console.log("Checked!")}, data.refresh_time);    
 })
 
 client.login(token);
 
 client.on('message', message => {
     console.log(`\n${message.author.username} : \n${message.content}\n`);
+    i = randomWack(i,message,data.random_wack_width);              //randomWack setup
 
-    if (!message.content.startsWith(prefix) || message.author.bot) return;
+
+    if (!message.content.startsWith(prefix) || message.author.bot) return;     
 
 	const args = message.content.slice(prefix.length).split(/ +/);
     const commandName = args.shift().toLowerCase();
@@ -160,3 +164,21 @@ function sendNotification(newChapter, manga, chapter_id, manga_id, role_id)
     }
 
 }   
+
+function randomWack(messageThreshold, message, width)
+{
+    try
+    {
+        if (messageThreshold <= 0) {
+            
+            const min = 5000;
+            messageThreshold = Math.floor((Math.random()*width) + min);
+            message.channel.send("Wack!");
+        }
+        console.log(`RandomWack: ${messageThreshold}`);
+    }
+    catch
+    {}
+    
+    return messageThreshold-1;
+}
