@@ -1,5 +1,7 @@
 module.exports = {
 	name: 'create_notif',
+	aliases: ["createnotif","create"],
+
 	execute(message, args, data) {
 		
 		if(!message.member.hasPermission("ADMINISTRATOR") && !message.member.roles.has(data.mod_role_id))
@@ -10,7 +12,7 @@ module.exports = {
 
 		if(args[0] === "help")
         {
-			message.channel.send("Syntax: `ron create_notif <Comic_Code> <Comic_ID> @Role`");
+			message.channel.send("Syntax: `ron create_notif <Comic_Code> <Comic_ID> @Role` \r\naliases : createnotif, create");
 			return;
         }
 		
@@ -21,7 +23,7 @@ module.exports = {
 			return;
 		}
 		message.channel.send("Created... maybe");		
-		data.series.push(manga = { 'role_id': role.id, 'manga_id': args[1], "code":args[0]});
+		data.series.push(manga = { 'role_id': role.id, 'manga_id': args[1], "code":args[0].toUpperCase()});
 		return data;
 		
 	},

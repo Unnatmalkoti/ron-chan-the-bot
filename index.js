@@ -1,6 +1,6 @@
 const Discord = require('discord.js');
 const request = require('request');
-const { prefix, token } = require('./config.json');
+const { prefixes, token } = require('./config.json');
 const fs = require('fs');
 const client = new Discord.Client();
 
@@ -61,13 +61,15 @@ client.on('message', message => {
     i = randomWack(i,message,data.random_wack_width);              //randomWack setup
 
 
-    if (!message.content.startsWith(prefix) || message.author.bot) return;     
+    if (   (!message.content.startsWith(prefixes[0])    &&   !message.content.startsWith(prefixes[1]))       ||       message.author.bot) return;     
 
-	const args = message.content.slice(prefix.length).split(/ +/);
+	const args = message.content.slice(prefixes[0].length).split(/ +/);
     const commandName = args.shift().toLowerCase();
 
-	if (!client.commands.has(commandName)) return;
-    const command = client.commands.get(commandName);
+	
+    const command = client.commands.get(commandName) ||
+            client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
+    if (!command) return;
 
     try {
         let newdata = command.execute(message, args,data);

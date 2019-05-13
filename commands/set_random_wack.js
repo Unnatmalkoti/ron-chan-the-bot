@@ -1,5 +1,7 @@
 module.exports = {
 	name: 'set_random_wack',
+	aliases: ["setrandomwack"],
+
 	execute(message, args, data) {
 		
 		if(!message.member.hasPermission("ADMINISTRATOR") && !message.member.roles.has(data.mod_role_id))
@@ -10,7 +12,7 @@ module.exports = {
 
 		if(args[0] === "help")
         {
-			message.channel.send("Syntax: `ron set_random_wack <Random_wack_width>`");
+			message.channel.send("Syntax: `ron set_random_wack <Random_wack_width>`\r\naliases: setrandomwack");
 			return;
         }
 		

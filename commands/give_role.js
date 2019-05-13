@@ -1,5 +1,7 @@
 module.exports = {
-	name: 'i_like',
+    name: 'i_like',
+    aliases: ["ilike","gimme","iwant","i_want"],
+
 	execute(message, args, data) {   
         console.log(args);
 
@@ -10,7 +12,7 @@ module.exports = {
         }
         if(args[0] === "help")
         {
-            message.channel.send("Syntax: `ron i_like <Comic_Code>`");
+            message.channel.send("Syntax: `ron i_like <Comic_Code>` \r\naliases: ilike, gimme, iwant, i_want");
         }
 
         if(args[0] === "ALL")
@@ -37,7 +39,8 @@ module.exports = {
 
         function getSeries(code, data)
         {
-           return data.series.find(manga => {
+            code    = code.toUpperCase();
+            return data.series.find(manga => {
                     return manga.code === code; 
                 
             });

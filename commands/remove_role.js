@@ -1,5 +1,6 @@
 module.exports = {
-	name: 'i_no_like',
+    name: 'i_no_like',
+    aliases: ["idontlike","inolike","remove"],
 	execute(message, args, data) {   
         console.log(args);
 
@@ -12,7 +13,7 @@ module.exports = {
         }
         if(args[0] === "help")
         {
-            message.channel.send("Syntax: `ron i_no_like <Comic_Code>`");
+            message.channel.send("Syntax: `ron i_no_like <Comic_Code>` \r\n aliases: idontlike, inolike,remove");
         }
         if(args[0] === "ALL")
         {

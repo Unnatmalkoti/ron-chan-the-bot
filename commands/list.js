@@ -1,6 +1,8 @@
 const Discord = require('discord.js');
 module.exports = {
-	name: 'list_notif',
+    name: 'list_notif',
+    aliases: ['listnotif',"list","show"],
+
 	execute(message, args, data) {
         let ctr = 0;
         let embed = new Discord.RichEmbed()
@@ -18,11 +20,12 @@ module.exports = {
             ctr = ctr+1;
 
             let role = message.guild.roles.get(manga.role_id);
-            embed = embed.addBlankField()
+            embed = embed
             .addField('Manga ID', manga.manga_id,true)
             .addField('Code', manga.code, true)
             .addField('Role', role, true)
-            .addField('Following',getFollowers(role, message), true);
+            .addField('Following',getFollowers(role, message), true)
+            .addBlankField();
 
             
            
