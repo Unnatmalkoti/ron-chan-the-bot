@@ -10,6 +10,6 @@ module.exports = {
         +"refresh_time : To Change the time interval after which bot looks for new chapter   *I didn't make it yet*"
         +"i_like : To add notification role for your fav series"
         +"i_no_like : To remove notification role of a series you are not good enough for"
-        message.channel.send(embed);		
+        message.channel.send(helpText);		
 	},
 };
