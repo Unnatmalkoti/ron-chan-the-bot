@@ -1,6 +1,6 @@
 const Discord = require('discord.js');
 module.exports = {
-	name: 'list_notif',
+	name: 'help',
 	execute(message, args, data) {
         const helpText = "**List of Commands**" + "\r\n"
         +"create_notif : To create a notification\r\n"
