@@ -17,6 +17,7 @@ module.exports = {
         {
             message.member.addRole(message.guild.roles.get(data.all_role));
             message.reply("So you wanna know about everything... Noice");
+            return;
         }
         
         if(!getSeries(args[0], data))
