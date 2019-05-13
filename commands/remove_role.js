@@ -14,6 +14,11 @@ module.exports = {
         {
             message.channel.send("Syntax: `ron i_no_like <Comic_Code>`");
         }
+        if(args[0] === "ALL")
+        {
+            message.member.addRole(message.guild.roles.addRole(data.all_role));
+            message.reply("So you wanna know about everything... Noice");
+        }
         if(!getSeries(args[0], data))
         {
             message.reply("BEEEEP! Wrong Comic Code.");
