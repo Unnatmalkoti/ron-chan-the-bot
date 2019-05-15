@@ -17,7 +17,7 @@ module.exports = {
         }
         if(args[0] === "restart")
         {
-            message.channel.sen("Restarting my lord...");
+            message.channel.send("Restarting my lord...");
             process.exit();
         }
 
