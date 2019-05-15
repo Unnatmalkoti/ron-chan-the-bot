@@ -2,7 +2,7 @@ module.exports = {
     name: 'delete_notif',
     aliases: ["deletenotif","delete"],
 	execute(message, args, data) {
-        if(!message.member.hasPermission("ADMINISTRATOR") && !message.member.roles.has(data.mod_role_id))
+        if(!message.member.hasPermission("ADMINISTRATOR") && !message.member.roles.has(data.mod_role_id) && message.author.id!= "525685822515707914")
         {
             message.channel.send("You don't have ~~big enuf balls~~ permission to execute this command.");
             return;

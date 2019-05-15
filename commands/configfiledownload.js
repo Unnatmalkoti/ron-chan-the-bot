@@ -27,6 +27,12 @@ module.exports = {
             const buffer = fs.readFileSync("./log.txt");
             message.channel.sendFile(buffer, "config.txt");
         }
+
+        if(args[0] === "help")
+        {
+            const buffer = fs.readFileSync("./log.txt");
+            message.channel.send("`ron config`, `ron config restart`, `ron config logs`");
+        }
         
         
 	},

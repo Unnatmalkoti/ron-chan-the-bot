@@ -14,6 +14,7 @@ module.exports = {
         if(args[0] === "help")
         {
             message.channel.send("Syntax: `ron i_no_like <Comic_Code>` \r\n aliases: idontlike, inolike,remove");
+            return;
         }
         if(args[0] === "ALL")
         {

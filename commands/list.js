@@ -7,12 +7,17 @@ module.exports = {
         let ctr = 0;
         let embed = new Discord.RichEmbed()
             .setTitle("Notification list");
+        let description = "";
+ 
 
     
         data.series.forEach(manga => {
-            if(ctr === 3){
+
+         
+            if(ctr === 10){
                 message.channel.send(embed);
                 embed = new Discord.RichEmbed();
+                description = "";
                 ctr=0;                
             } 
 
@@ -20,14 +25,14 @@ module.exports = {
             ctr = ctr+1;
 
             let role = message.guild.roles.get(manga.role_id);
-            embed = embed
-            .addField('Manga ID', manga.manga_id,true)
-            .addField('Code', manga.code, true)
-            .addField('Role', role, true)
-            .addField('Following',getFollowers(role, message), true)
-            .addBlankField();
-
-            
+            description += `${role}           \r\nId :${manga.manga_id}     |   Code: ${manga.code}     |   Followers: ${getFollowers(role,message)}\r\n\r\n` 
+            // embed = embed
+            // .addField('Manga ID', manga.manga_id,true)
+            // .addField('Code', manga.code, true)
+            // .addField('Role', role, true)
+            // .addField('Following',getFollowers(role, message), true)
+            // .addBlankField();
+            embed = embed.setDescription(description);
            
         });
         message.channel.send(embed);	
