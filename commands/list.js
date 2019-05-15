@@ -25,7 +25,7 @@ module.exports = {
             ctr = ctr+1;
 
             let role = message.guild.roles.get(manga.role_id);
-            description += `${role}           \r\nId :${manga.manga_id}     |   Code: ${manga.code}     |   Followers: ${getFollowers(role,message)}\r\n\r\n` 
+            description += `${role}           \r\nId: ${manga.manga_id}     |   Code: ${manga.code}     |   Followers: ${getFollowers(role,message)}\r\n\r\n` 
             // embed = embed
             // .addField('Manga ID', manga.manga_id,true)
             // .addField('Code', manga.code, true)
