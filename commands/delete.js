@@ -1,8 +1,10 @@
+const  {database} = require("../database");
 module.exports = {
     name: 'delete_notif',
     aliases: ["deletenotif","delete"],
-	execute(message, args, data) {
-        if(!message.member.hasPermission("ADMINISTRATOR") && !message.member.roles.has(data.mod_role_id) && message.author.id!= "525685822515707914")
+	async execute(message, args) {
+        let config = await database.getConfig().then(x=>x);	
+        if (!message.member.hasPermission("ADMINISTRATOR") && !message.member.roles.has(config.mod_role_id) && message.author.id != config.god_father_id)
         {
             message.channel.send("You don't have ~~big enuf balls~~ permission to execute this command.");
             return;
@@ -17,17 +19,9 @@ module.exports = {
             return;
         }
 
-       let newseries =  data.series.filter((value, index, arr)=>{
-            console.log(value)
-            console.log(value.manga_id != args[0])
-            return value.code != args[0].toUpperCase();
-
-        });
-        data.series = newseries;
-        message.channel.send(`Removed ${args[0]} if there was any.`);
-        return data;
-
-
+        await database.deleteNotification({"code" : args[0].toUpperCase()}); 
+        
+        message.channel.send(`Removed ${args[0].toUpperCase()} if there was any.`);
         
 	},
 };

@@ -1,17 +1,21 @@
+const  {database} = require("../database");
 const Discord = require('discord.js');
 module.exports = {
     name: 'list_notif',
     aliases: ['listnotif',"list","show"],
 
-	execute(message, args, data) {
+	async execute(message, args) {
         let ctr = 0;
         let embed = new Discord.RichEmbed()
             .setTitle("Notification list");
         let description = "";
+
+        let notifications = await database.getAllNotifications().then(x=>x);
+        let config = await database.getConfig().then(x=>x);
  
 
     
-        data.series.forEach(manga => {
+        notifications.forEach(manga => {
 
          
             if(ctr === 10){
