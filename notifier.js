@@ -94,6 +94,7 @@ async function findNewChapters(manga, manga_id, role_id, config, notified_chapte
                     {
                         if(!notified_chapters.some(x=>x.chapter_id === chapter.chapter_id))
                         {
+                            console.log(chapter);
                             sendNotification(chapter, manga.manga, chapter.chapter_id, manga_id, role_id, config);
                         }
                     })
