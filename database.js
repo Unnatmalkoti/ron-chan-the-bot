@@ -1,27 +1,30 @@
 const MongoClient = require('mongodb').MongoClient;
 const assert = require('assert');
 const uri = "mongodb+srv://unnat:nonstop98@ron-chan-the-bot-izi3w.mongodb.net/test?retryWrites=true";
-const client = new MongoClient(uri, { useNewUrlParser: true });
 const dbName = "ronchan";
+var mongodb;
 
-module.exports.database = {
-  client,dbName,addChapter,addNotification,deleteNotification,assert,getAllChapters,getAllNotifications,getConfig
-}
+
+
 //Use connect method to connect to the Server
-getConfig();
+MongoClient.connect(uri, {  
+  poolSize: 10,
+  useNewUrlParser: true
+  // other options can go here
+},function(err, db) {
+    assert.equal(null, err);
+    mongodb=db;
+    }
+)
+module.exports.database = {
+dbName,addChapter,addNotification,deleteNotification,assert,getAllChapters,getAllNotifications,getConfig
+}
 
-function getAllChapters(){
+
+async function getAllChapters(){
   try{
-    return client.connect().then(function(client){
-      var collection = client.db(dbName).collection("notified_chapters");
-      return collection.find().toArray();
-    }).then((items)=>{
-      
-      client.close();
-        console.log(items);
-        return items;
-    });
-
+      var collection = mongodb.db(dbName).collection("notified_chapters");
+      return await collection.find().toArray();
   }
   catch(err)
   {
@@ -30,17 +33,11 @@ function getAllChapters(){
 
 }
 
-function getAllNotifications(){
+async function getAllNotifications(){
   try
   {
-    return client.connect().then(function(client){
-      var collection = client.db(dbName).collection("notifications");
-      return collection.find().toArray();
-    }).then((items)=>{
-        //console.log(items);
-        client.close();
-        return items;
-      });
+      var collection = mongodb.db(dbName).collection("notifications");
+      return await collection.find().toArray();
   }
 
   catch(err)
@@ -52,18 +49,12 @@ function getAllNotifications(){
   
 }
 
-function getConfig(){
+async function getConfig(){
   try
   {
-    return client.connect().then(function(client){
-     
-      var collection = client.db(dbName).collection("configurations");
-      return collection.find().toArray();
-    }).then((items)=>{
-        console.log(items);
-        client.close();
-        return items[0];
-    });
+      var collection = mongodb.db(dbName).collection("configurations");
+      let configArray = await collection.find().toArray();
+      return configArray[0] ;
   }
   catch(err)
   {
@@ -76,62 +67,47 @@ function addChapter(chapter)
 {
   try
   {
-    client.connect(function(err) {
-      assert.equal(null, err);
       console.log("Connected successfully to server");
-  
-      const db = client.db(dbName);
+
+      const db = mongodb.db(dbName);
       const collection = db.collection("notified_chapters");
       insert(collection, [chapter],
       function(){
         client.close();
       });
       
-  });
   }
   catch(err)
   {
     console.log(err);
   }
   
-
-
 }
-
 function addNotification(notification)
-{
-  client.connect(function(err)
-  {
-    assert.equal(null, err);
+{    
     console.log("Connected successfully to server");
 
-    const db = client.db(dbName);
+    const db = mongodb.db(dbName);
     const collection = db.collection("notifications");
 
     insert(collection,[notification],
       function(){
-        client.close();
       });
-
-  });
 }
 
 function deleteNotification(query_str)
 {
-  client.connect(function(err)
-  {
-    assert.equal(null, err);
+  
     console.log("Connected successfully to server");
 
-    const db = client.db(dbName);
+    const db = mongodb.db(dbName);
     const collection = db.collection("notifications");
 
     remove(collection,query_str,
       function(){
-        client.close();
+      
       })
 
-  });
 }
 
 function insert(collection,data_array,callback)

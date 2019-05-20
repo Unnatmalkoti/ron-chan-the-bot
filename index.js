@@ -1,18 +1,15 @@
 const Discord = require('discord.js');
-const request = require('request');
 const { prefixes } = require('./config.json');
 const fs = require('fs');
 const client = new Discord.Client();
 const {database} = require("./database");
-var notify;
+
+
 
 client.commands = new Discord.Collection();
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
-//module.exports.discordClient = client;
 
-//datastreams
-process.env.DISCORD_TOKEN = "NTcyMzMwODQ3NzgxMjU3MjI4.XMavaA.M4M-CR2STVLGuMPkqxc09kqojoc";
-process.env.release_channel_id = "565405117088661507";
+
 
 
 for (const file of commandFiles) {

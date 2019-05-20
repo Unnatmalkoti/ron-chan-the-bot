@@ -8,57 +8,66 @@ const assert = require('assert');
 const uri = "mongodb+srv://unnat:nonstop98@ron-chan-the-bot-izi3w.mongodb.net/test?retryWrites=true";
 const client = new MongoClient(uri, { useNewUrlParser: true });
 const dbName = "ronchan";
+var mongodb;
 let i =1;
+
+
+
+MongoClient.connect(uri, {  
+    poolSize: 10,
+    useNewUrlParser: true
+    // other options can go here
+  },function(err, db) {
+      assert.equal(null, err);
+      mongodb=db;
+      }
+  )
 
 
 function notify() {
   
-    client.connect(err => {
+    
+
         console.log("connect()");
         setInterval(async function () {
+            try {
 
-            let db = client.db(dbName);
+                let db = mongodb.db(dbName);
 
-            let config = await db.collection("configurations").find().toArray();
-            let notified_chapters = await db.collection("notified_chapters").find().toArray();
-            let notifications = await db.collection("notifications").find().toArray();
-            console.log(`connection number : ${i++}`);
-
-
-
-            notifications.forEach(function (manga) {
-
-                request({ url: `https://mangadex.org/api/manga/${manga.manga_id}/`, json: true }, function (err, res, json) {
-                    findNewChapters(json, manga.manga_id, manga.role_id, config, notified_chapters); 
-                    //console.log(json);                    
-                })
+                let config = await db.collection("configurations").find().toArray();
 
                 
+                let notified_chapters = await db.collection("notified_chapters").find().toArray();
+                let notifications = await db.collection("notifications").find().toArray();
+                console.log(`connection number : ${i++}`);
 
-            });
-            console.log("checked!");
 
-        }, 5 * 1000);
-    });
+
+                notifications.forEach(function (manga) {
+
+                    request({ url: `https://mangadex.org/api/manga/${manga.manga_id}/`, json: true }, function (err, res, json) {
+                        findNewChapters(json, manga.manga_id, manga.role_id, config[0], notified_chapters, client);
+                        //console.log(json);                    
+                    })
+
+
+
+                });
+
+                console.log("checked!");
+            }
+
+            catch (err) {
+                console.log(err);
+                //console.log("ERROR : "+ err.toString());
+            }
+
+        }, 60 * 1000);
+
     console.log("notify()");
-        
-        
-
-    // }
- 
-    // catch(err)
-    // {
-    //     console.log(err);
-    //     //console.log("ERROR : "+ err.toString());
-    // }
-    // finally
-    // {}
-
-
-    
 }
 
-async function findNewChapters(manga, manga_id, role_id, config, notified_chapters)
+async function findNewChapters(manga, manga_id, role_id, config, notified_chapters,client)
 {
     try
     {
@@ -95,7 +104,7 @@ async function findNewChapters(manga, manga_id, role_id, config, notified_chapte
                         if(!notified_chapters.some(x=>x.chapter_id === chapter.chapter_id))
                         {
                             console.log(chapter);
-                            sendNotification(chapter, manga.manga, chapter.chapter_id, manga_id, role_id, config);
+                            sendNotification(chapter, manga.manga, chapter.chapter_id, manga_id, role_id, config,client);
                         }
                     })
                 
@@ -132,7 +141,7 @@ async function findNewChapters(manga, manga_id, role_id, config, notified_chapte
 }
 
 
-async function sendNotification(newChapter, manga, chapter_id, manga_id, role_id,config)
+async function sendNotification(newChapter, manga, chapter_id, manga_id, role_id,config,client)
 {
     try
     {
@@ -152,7 +161,9 @@ async function sendNotification(newChapter, manga, chapter_id, manga_id, role_id
             release_channel.send(emmbed)
                 .then(message => {
 
-                    database.addChapter({"chapter_id": chapter_id});
+                    //database.addChapter({"chapter_id": chapter_id});
+                    mongodb.db(dbName).collection('notified_chapters').insertMany([{"chapter_id": chapter_id}])
+
                     
                 })
             .catch(err=>

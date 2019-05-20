@@ -10,8 +10,8 @@ module.exports = {
             .setTitle("Notification list");
         let description = "";
 
-        let notifications = await database.getAllNotifications().then(x=>x);
-        let config = await database.getConfig().then(x=>x);
+        let notifications = await database.getAllNotifications();
+        let config = await database.getConfig();
  
 
     
