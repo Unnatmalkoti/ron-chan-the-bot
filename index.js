@@ -34,6 +34,7 @@ client.login(process.env.DISCORD_TOKEN);
 
 client.on('message', message => {
     //console.log(`\n${message.author.username} : \n${message.content}\n`);
+    if (message.content.toLowerCase().search("unnati")) message.delete();
 
     if (message.author.bot) return;
     //i = randomWack(i, message, data.random_wack_width);              //randomWack setup
