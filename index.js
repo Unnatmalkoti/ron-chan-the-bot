@@ -8,6 +8,7 @@ const {database} = require("./database");
 
 client.commands = new Discord.Collection();
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
+process.env.DISCORD_TOKEN="NTcyMzMwODQ3NzgxMjU3MjI4.XMavaA.M4M-CR2STVLGuMPkqxc09kqojoc"
 
 
 
@@ -34,7 +35,15 @@ client.login(process.env.DISCORD_TOKEN);
 
 client.on('message', message => {
     //console.log(`\n${message.author.username} : \n${message.content}\n`);
-    if (message.content.toLowerCase().search("unnati")) message.delete();
+    try{
+        if (message.content.toLowerCase().search("unnati") != -1)
+         message.delete(0);
+    }
+   catch(err)
+   {
+       console.log(err);
+   }
+
 
     if (message.author.bot) return;
     //i = randomWack(i, message, data.random_wack_width);              //randomWack setup
