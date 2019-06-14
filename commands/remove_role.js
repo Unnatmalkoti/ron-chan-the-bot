@@ -24,7 +24,7 @@ module.exports = {
             return;
 
         }
-        if(!getSeries(args[0]))
+        if(!getSeries(args[0], notifications))
         {
             message.reply("BEEEEP! Wrong Comic Code.");
             return;
@@ -41,7 +41,8 @@ module.exports = {
 
         function getSeries(code, notifications)
         {
-           return notifications.find(manga => {
+            code    = code.toUpperCase();
+            return notifications.find(manga => {
                     return manga.code === code; 
                 
             });

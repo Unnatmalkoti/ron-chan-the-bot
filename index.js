@@ -8,7 +8,6 @@ const {database} = require("./database");
 
 client.commands = new Discord.Collection();
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
-process.env.DISCORD_TOKEN="NTcyMzMwODQ3NzgxMjU3MjI4.XMavaA.M4M-CR2STVLGuMPkqxc09kqojoc"
 
 
 
